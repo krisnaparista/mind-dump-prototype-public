@@ -21,6 +21,7 @@
     --cream-faint:rgba(255,244,218,0.35);
     --sun-yellow:#ffce3a;
     --good:#3ddc84;
+    --review:#b18ae8;
     --shadow-hard: 8px 8px 0 rgba(0,0,0,0.35);
   }
 
@@ -39,10 +40,12 @@
   }
 
   .wrap{
-    max-width: 560px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 28px 16px 40px;
   }
+
+  .narrow{ max-width: 560px; margin-left:auto; margin-right:auto; }
 
   /* ---------- hero ---------- */
   h1{
@@ -233,7 +236,7 @@
   }
   #syncStatus .ok{ color: var(--good); }
 
-  /* ---------- dashboard ---------- */
+  /* ---------- dashboard: charts ---------- */
   .chips{
     display:flex;
     justify-content:center;
@@ -250,12 +253,80 @@
   }
   .chip b{ color: var(--sun-yellow); }
 
+  .charts{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .chart-box{
+    flex:1 1 250px;
+    background: rgba(255,244,218,0.05);
+    border: 1px solid rgba(255,244,218,0.12);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .chart-box h3{
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color: var(--cream-faint);
+    margin: 0 0 10px;
+    font-weight:normal;
+  }
+  .chart-box svg{ width:100%; height:auto; display:block; }
+  .donut-wrap{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .donut-wrap svg{ width:110px; flex:none; }
+  .legend{ font-size:11px; line-height:2; }
+  .legend .dot{
+    display:inline-block; width:9px; height:9px; border-radius:50%;
+    margin-right:7px; vertical-align:middle;
+  }
+  .legend b{ float:right; margin-left:14px; }
+
+  /* ---------- dashboard: filters + table ---------- */
+  .filters{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .filters input[type="search"]{
+    flex:1 1 200px;
+    background: var(--panel-2);
+    border: 1px solid rgba(255,244,218,0.2);
+    border-radius: 9px;
+    color: var(--cream);
+    font-family:inherit;
+    font-size:12px;
+    padding: 8px 10px;
+    outline:none;
+  }
+  .filters input[type="search"]:focus{ border-color: var(--cream-dim); }
+  .filters select{
+    background: var(--panel-2);
+    color: var(--cream);
+    border: 1px solid rgba(255,244,218,0.2);
+    border-radius: 9px;
+    font-family:inherit;
+    font-size:12px;
+    padding: 8px 8px;
+    cursor:pointer;
+  }
+  .shown-count{
+    align-self:center;
+    font-size:10px;
+    color: var(--cream-faint);
+    letter-spacing:1px;
+    white-space:nowrap;
+  }
+
   .table-scroller{ overflow-x:auto; }
   table{
     width:100%;
     border-collapse:collapse;
     font-size:12.5px;
-    min-width: 430px;
+    min-width: 840px;
   }
   th{
     text-align:left;
@@ -266,26 +337,24 @@
     padding: 6px 8px;
     border-bottom: 2px dashed rgba(255,244,218,0.25);
     font-weight:normal;
+    white-space:nowrap;
   }
   td{
-    padding: 8px;
+    padding: 7px 8px;
     border-bottom: 1px solid rgba(255,244,218,0.08);
     vertical-align:middle;
   }
-  td.text-cell{ word-break:break-word; min-width:140px; line-height:1.4; }
+  td.text-cell{ word-break:break-word; min-width:150px; line-height:1.4; }
   tr.done td.text-cell{ text-decoration:line-through; opacity:0.45; }
   tr.fresh{ animation: land 0.4s ease-out; }
   @keyframes land{
     0%{ background: rgba(255,206,58,0.25); }
     100%{ background: transparent; }
   }
-  .pending-badge{
-    font-size:11px;
-    color: var(--sun-yellow);
-    white-space:nowrap;
-  }
+  .pending-badge{ font-size:11px; color: var(--sun-yellow); white-space:nowrap; }
   .date-cell{ font-size:11px; color:var(--cream-dim); white-space:nowrap; }
-  select{
+
+  select.cell{
     background: var(--panel-2);
     color: var(--cream);
     border: 1px solid rgba(255,244,218,0.25);
@@ -294,8 +363,39 @@
     font-size:11.5px;
     padding: 4px 5px;
     cursor:pointer;
+    max-width: 120px;
   }
-  select:focus-visible{ outline:2px solid var(--throat-pink); }
+  select.cell:focus-visible{ outline:2px solid var(--throat-pink); }
+
+  input.cell-input{
+    background:transparent;
+    border:none;
+    border-bottom: 1px dashed rgba(255,244,218,0.25);
+    color: var(--cream);
+    font-family:inherit;
+    font-size:11.5px;
+    padding: 3px 2px;
+    width: 120px;
+    outline:none;
+  }
+  input.cell-input:focus{ border-bottom-color: var(--cream-dim); }
+  input.cell-input.eta{ width: 52px; }
+
+  .quad-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    background: rgba(87,199,255,0.13);
+    border-radius:999px;
+    padding: 3px 10px;
+    white-space:nowrap;
+  }
+  .quad-pill .q-dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--ball);
+  }
+
   .tag-flash{
     display:inline-block;
     font-size:10px;
@@ -315,6 +415,8 @@
     margin-top:12px;
     font-size:10px;
     color: var(--cream-faint);
+    gap:10px;
+    flex-wrap:wrap;
   }
   .dash-foot button{
     background:none;
@@ -388,7 +490,7 @@
   </header>
 
   <!-- 1 · the muncher -->
-  <section class="card" id="muncherCard" aria-label="Thought capture">
+  <section class="card narrow" id="muncherCard" aria-label="Thought capture">
     <h2>1 · Feed it a thought</h2>
     <div class="muncher" id="muncherBox">
       <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -450,7 +552,7 @@
   </section>
 
   <!-- 2 · sync theater -->
-  <section class="card" aria-label="Sync pipeline">
+  <section class="card narrow" aria-label="Sync pipeline">
     <h2>2 · It syncs itself</h2>
     <div class="pipeline">
       <span class="pipe-node" id="nodePhone">📱 captured</span>
@@ -465,27 +567,61 @@
   <!-- 3 · dashboard -->
   <section class="card" aria-label="Dashboard">
     <h2>3 · Sort it later</h2>
+
     <div class="chips">
       <span class="chip"><b id="chipOpen">0</b> open</span>
+      <span class="chip"><b id="chipFirst">0</b> do first</span>
       <span class="chip"><b id="chipTotal">0</b> total</span>
       <span class="chip"><b id="chipPending">0</b> syncing</span>
     </div>
+
+    <div class="charts">
+      <div class="chart-box">
+        <h3>Open tasks by quadrant</h3>
+        <svg id="quadChart" viewBox="0 0 280 104" role="img" aria-label="Bar chart of open tasks per quadrant"></svg>
+      </div>
+      <div class="chart-box">
+        <h3>All tasks by status</h3>
+        <div class="donut-wrap">
+          <svg id="donutChart" viewBox="0 0 120 120" role="img" aria-label="Donut chart of tasks per status"></svg>
+          <div class="legend" id="donutLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <input type="search" id="searchBox" placeholder="Search dumps + notes...">
+      <select id="statusFilter" title="Status filter">
+        <option>Open</option>
+        <option>All</option>
+        <option>To Do</option>
+        <option>WIP</option>
+        <option>Under Review</option>
+        <option>Done</option>
+      </select>
+      <span class="shown-count" id="shownCount"></span>
+    </div>
+
     <div class="table-scroller">
       <table>
         <thead>
-          <tr><th>Dumped</th><th>Mind dump</th><th>Quadrant</th><th>Status</th></tr>
+          <tr>
+            <th>Dumped</th><th>Mind dump</th><th>MoSCoW</th><th>Urgent?</th>
+            <th>Important?</th><th>Quadrant</th><th>Status</th><th>Notes</th><th>ETA</th>
+          </tr>
         </thead>
         <tbody id="taskBody"></tbody>
       </table>
     </div>
+
     <div class="dash-foot">
-      <span>your dumps live only in <em>your</em> browser</span>
+      <span>your dumps live only in <em>your</em> browser &middot; quadrant is computed from urgent + important (Eisenhower)</span>
       <button id="resetBtn" type="button">↺ fresh brain</button>
     </div>
   </section>
 
   <!-- 4 · how the real thing works -->
-  <section class="card" aria-label="Architecture of the real system">
+  <section class="card narrow" aria-label="Architecture of the real system">
     <h2>How the real thing works</h2>
     <div class="arch">
       <div class="arch-node">
@@ -525,40 +661,79 @@
 (function(){
   "use strict";
 
-  var LS_KEY = "mind-muncher-demo-v1";
-  var QUADRANTS = [
-    { v: 1, label: "🔥 Do First" },
-    { v: 2, label: "📅 Schedule" },
-    { v: 3, label: "🤝 Delegate" },
-    { v: 0, label: "💤 Backlog" }
-  ];
+  var LS_KEY = "mind-muncher-demo-v2";
+  var QUAD_META = {
+    1: { label: "Do First" },
+    2: { label: "Schedule" },
+    3: { label: "Delegate" },
+    0: { label: "Backlog" }
+  };
+  var QUAD_ORDER = [1, 2, 3, 0];
   var STATUSES = ["To Do", "WIP", "Under Review", "Done"];
+  var STATUS_COLORS = {
+    "To Do": "#57c7ff", "WIP": "#ffce3a", "Under Review": "#b18ae8", "Done": "#3ddc84"
+  };
+  var MOSCOW = ["—", "Must Have", "Should Have", "Nice to Have"];
+  var YESNO = ["—", "Yes", "No"];
 
-  // tiny demo version of the real keyword auto-tagger
+  // toy demo rules (NOT the real rule set) — they set urgent/important,
+  // and the quadrant follows from the public Eisenhower formula
   var DEMO_RULES = [
-    { pattern: "call",  q: 3 }, { pattern: "email", q: 3 }, { pattern: "ask", q: 3 },
-    { pattern: "today", q: 1 }, { pattern: "asap",  q: 1 }, { pattern: "now", q: 1 },
-    { pattern: "idea",  q: 0 }, { pattern: "maybe", q: 0 },
-    { pattern: "plan",  q: 2 }, { pattern: "learn", q: 2 }
+    { pattern: "today", u: "Yes", i: "" }, { pattern: "asap", u: "Yes", i: "" },
+    { pattern: "now",   u: "Yes", i: "" }, { pattern: "deadline", u: "Yes", i: "Yes" },
+    { pattern: "call",  u: "Yes", i: "No" }, { pattern: "email", u: "Yes", i: "No" },
+    { pattern: "ask",   u: "Yes", i: "No" },
+    { pattern: "plan",  u: "No",  i: "Yes" }, { pattern: "learn", u: "No", i: "Yes" }
   ];
+
+  function computeQuad(u, i){
+    var urg = u === "Yes", imp = i === "Yes";
+    if (imp && urg) return 1;
+    if (imp) return 2;
+    if (urg) return 3;
+    return 0;
+  }
+
+  function isoDaysAgo(n){
+    var d = new Date();
+    d.setDate(d.getDate() - n);
+    return d.toISOString().slice(0, 10);
+  }
+  function uid(){ return Math.random().toString(36).slice(2, 10); }
 
   function seedTasks(){
-    var today = isoToday();
     return [
-      { id: uid(), text: "update tax code before deadline", date: today,  q: 1, status: "WIP",   pending: false },
-      { id: uid(), text: "plan the weekend hiking trip",    date: today,  q: 2, status: "To Do", pending: false },
-      { id: uid(), text: "call the dentist",                date: today,  q: 3, status: "To Do", pending: false },
-      { id: uid(), text: "idea: monster that eats my todos", date: today, q: 0, status: "Done",  pending: false }
+      { id: uid(), text: "update tax code before deadline", date: isoDaysAgo(1),
+        moscow: "Must Have", urgent: "Yes", important: "Yes", status: "WIP",
+        notes: "due 15 July", eta: "2d", pending: false },
+      { id: uid(), text: "learn canvas animation for the monster", date: isoDaysAgo(1),
+        moscow: "Nice to Have", urgent: "No", important: "Yes", status: "Under Review",
+        notes: "prototype built", eta: "", pending: false },
+      { id: uid(), text: "plan the weekend hiking trip", date: isoDaysAgo(0),
+        moscow: "Should Have", urgent: "No", important: "Yes", status: "To Do",
+        notes: "", eta: "1h", pending: false },
+      { id: uid(), text: "call the dentist", date: isoDaysAgo(0),
+        moscow: "—", urgent: "Yes", important: "No", status: "To Do",
+        notes: "", eta: "", pending: false },
+      { id: uid(), text: "idea: monster that eats my todos", date: isoDaysAgo(2),
+        moscow: "—", urgent: "—", important: "—", status: "Done",
+        notes: "you're looking at it", eta: "", pending: false }
     ];
   }
 
-  function uid(){ return Math.random().toString(36).slice(2, 10); }
-  function isoToday(){ return new Date().toISOString().slice(0, 10); }
+  function normalize(t){
+    t.moscow = t.moscow || "—";
+    t.urgent = t.urgent || "—";
+    t.important = t.important || "—";
+    t.notes = t.notes || "";
+    t.eta = t.eta || "";
+    return t;
+  }
 
   function load(){
     try {
       var raw = localStorage.getItem(LS_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) return JSON.parse(raw).map(normalize);
     } catch (e) { /* private mode etc. — run in-memory */ }
     return seedTasks();
   }
@@ -574,13 +749,12 @@
   var input = document.getElementById("thought");
   var gulpBtn = document.getElementById("gulpBtn");
   var body = document.getElementById("taskBody");
-  var chipOpen = document.getElementById("chipOpen");
-  var chipTotal = document.getElementById("chipTotal");
-  var chipPending = document.getElementById("chipPending");
   var syncStatus = document.getElementById("syncStatus");
   var nodePhone = document.getElementById("nodePhone");
   var nodeSync = document.getElementById("nodeSync");
   var nodeDash = document.getElementById("nodeDash");
+  var searchBox = document.getElementById("searchBox");
+  var statusFilter = document.getElementById("statusFilter");
   var chewing = false;
 
   // ---------- gulp sound (synthesized, mirrors the Android app) ----------
@@ -623,21 +797,22 @@
       if (lower.indexOf(DEMO_RULES[i].pattern) !== -1) { rule = DEMO_RULES[i]; break; }
     }
 
-    var task = {
+    var task = normalize({
       id: uid(),
       text: val,
-      date: isoToday(),
-      q: rule ? rule.q : 0,
+      date: isoDaysAgo(0),
+      urgent: rule && rule.u ? rule.u : "—",
+      important: rule && rule.i ? rule.i : "—",
       status: "To Do",
       pending: true,
       autoTagged: !!rule
-    };
+    });
 
     setTimeout(function(){
       input.value = "";
       tasks.unshift(task);   // newest first — same invariant as the real sheet
       save();
-      render();
+      render(task.id);
       theater(task);
     }, 300);
 
@@ -672,16 +847,122 @@
     }, 1800);
   }
 
-  // ---------- render ----------
+  // ---------- charts (hand-rolled SVG, no libraries) ----------
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  function svgEl(name, attrs, textContent){
+    var el = document.createElementNS(SVG_NS, name);
+    for (var k in attrs) el.setAttribute(k, attrs[k]);
+    if (textContent !== undefined) el.textContent = textContent;
+    return el;
+  }
+
+  function renderQuadChart(){
+    var svg = document.getElementById("quadChart");
+    svg.innerHTML = "";
+    var counts = QUAD_ORDER.map(function(q){
+      return tasks.filter(function(t){
+        return !t.pending && t.status !== "Done" && computeQuad(t.urgent, t.important) === q;
+      }).length;
+    });
+    var max = Math.max.apply(null, counts.concat([1]));
+    QUAD_ORDER.forEach(function(q, i){
+      var y = 8 + i * 24;
+      var w = Math.round((counts[i] / max) * 165);
+      svg.appendChild(svgEl("text", { x: 0, y: y + 10, "font-size": 9.5,
+        fill: "rgba(255,244,218,0.6)", "font-family": "inherit" }, QUAD_META[q].label));
+      svg.appendChild(svgEl("rect", { x: 62, y: y, width: Math.max(w, 2), height: 13,
+        rx: 3, fill: "#57c7ff" }));
+      svg.appendChild(svgEl("text", { x: 62 + Math.max(w, 2) + 6, y: y + 10.5,
+        "font-size": 10, fill: "#fff4da", "font-family": "inherit" }, String(counts[i])));
+    });
+  }
+
+  function renderDonut(){
+    var svg = document.getElementById("donutChart");
+    var legend = document.getElementById("donutLegend");
+    svg.innerHTML = "";
+    legend.innerHTML = "";
+
+    var visible = tasks.filter(function(t){ return !t.pending; });
+    var total = visible.length;
+    var R = 44, C = 2 * Math.PI * R;
+    var offset = 0;
+
+    STATUSES.forEach(function(s){
+      var n = visible.filter(function(t){ return t.status === s; }).length;
+      var li = document.createElement("div");
+      li.innerHTML = '<span class="dot" style="background:' + STATUS_COLORS[s] + '"></span>' +
+        s + " <b>" + n + "</b>";
+      legend.appendChild(li);
+      if (!n || !total) return;
+      var frac = n / total;
+      var seg = svgEl("circle", {
+        cx: 60, cy: 60, r: R, fill: "none",
+        stroke: STATUS_COLORS[s], "stroke-width": 15,
+        "stroke-dasharray": (frac * C) + " " + C,
+        "stroke-dashoffset": String(-offset * C),
+        transform: "rotate(-90 60 60)"
+      });
+      svg.appendChild(seg);
+      offset += frac;
+    });
+
+    svg.appendChild(svgEl("text", { x: 60, y: 58, "text-anchor": "middle",
+      "font-size": 20, "font-weight": "bold", fill: "#fff4da", "font-family": "inherit" }, String(total)));
+    svg.appendChild(svgEl("text", { x: 60, y: 74, "text-anchor": "middle",
+      "font-size": 8.5, fill: "rgba(255,244,218,0.5)", "font-family": "inherit" }, "total"));
+  }
+
+  // ---------- table ----------
+  function matchesFilters(t){
+    var f = statusFilter.value;
+    if (f === "Open" && t.status === "Done") return false;
+    if (f !== "Open" && f !== "All" && t.status !== f) return false;
+    var q = searchBox.value.trim().toLowerCase();
+    if (q && t.text.toLowerCase().indexOf(q) === -1 &&
+        (t.notes || "").toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  }
+
+  function makeSelect(options, current, onChange){
+    var sel = document.createElement("select");
+    sel.className = "cell";
+    options.forEach(function(o){
+      var op = document.createElement("option");
+      op.textContent = o;
+      if (o === current) op.selected = true;
+      sel.appendChild(op);
+    });
+    sel.addEventListener("change", function(){ onChange(sel.value); });
+    return sel;
+  }
+
+  function makeInput(value, cls, placeholder, onChange){
+    var inp = document.createElement("input");
+    inp.className = "cell-input" + (cls ? " " + cls : "");
+    inp.value = value;
+    inp.placeholder = placeholder;
+    inp.addEventListener("change", function(){ onChange(inp.value); });
+    return inp;
+  }
+
+  function quadPill(t){
+    var span = document.createElement("span");
+    span.className = "quad-pill";
+    var dot = document.createElement("span");
+    dot.className = "q-dot";
+    span.appendChild(dot);
+    span.appendChild(document.createTextNode(QUAD_META[computeQuad(t.urgent, t.important)].label));
+    return span;
+  }
+
   function render(freshId){
     body.innerHTML = "";
-    if (!tasks.length) {
-      var er = document.createElement("tr");
-      er.className = "empty-row";
-      er.innerHTML = '<td colspan="4">nothing digested yet — feed the muncher above</td>';
-      body.appendChild(er);
-    }
+    var shown = 0;
+
     tasks.forEach(function(t){
+      if (!t.pending && !matchesFilters(t)) return;
+      shown++;
       var tr = document.createElement("tr");
       if (t.status === "Done") tr.className = "done";
       if (t.id === freshId) tr.className += " fresh";
@@ -700,46 +981,68 @@
         tdText.appendChild(flash);
       }
 
-      var tdQuad = document.createElement("td");
-      var tdStatus = document.createElement("td");
+      var tds = [tdDate, tdText];
 
       if (t.pending) {
-        tdQuad.innerHTML = '<span class="pending-badge">⏳ syncing…</span>';
-        tdStatus.textContent = "";
+        var tdPend = document.createElement("td");
+        tdPend.colSpan = 7;
+        tdPend.innerHTML = '<span class="pending-badge">⏳ syncing…</span>';
+        tds.push(tdPend);
       } else {
-        tdQuad.appendChild(makeSelect(QUADRANTS.map(function(q){ return q.label; }),
-          quadLabel(t.q),
-          function(label){ t.q = QUADRANTS.filter(function(q){ return q.label === label; })[0].v; save(); }));
+        var tdMoscow = document.createElement("td");
+        tdMoscow.appendChild(makeSelect(MOSCOW, t.moscow, function(v){ t.moscow = v; save(); }));
+
+        var tdUrg = document.createElement("td");
+        tdUrg.appendChild(makeSelect(YESNO, t.urgent, function(v){
+          t.urgent = v; save(); render();
+        }));
+
+        var tdImp = document.createElement("td");
+        tdImp.appendChild(makeSelect(YESNO, t.important, function(v){
+          t.important = v; save(); render();
+        }));
+
+        var tdQuad = document.createElement("td");
+        tdQuad.appendChild(quadPill(t));
+
+        var tdStatus = document.createElement("td");
         tdStatus.appendChild(makeSelect(STATUSES, t.status, function(v){
           t.status = v; save(); render();
         }));
+
+        var tdNotes = document.createElement("td");
+        tdNotes.appendChild(makeInput(t.notes, "", "—", function(v){ t.notes = v; save(); }));
+
+        var tdEta = document.createElement("td");
+        tdEta.appendChild(makeInput(t.eta, "eta", "—", function(v){ t.eta = v; save(); }));
+
+        tds.push(tdMoscow, tdUrg, tdImp, tdQuad, tdStatus, tdNotes, tdEta);
       }
 
-      tr.appendChild(tdDate); tr.appendChild(tdText); tr.appendChild(tdQuad); tr.appendChild(tdStatus);
+      tds.forEach(function(td){ tr.appendChild(td); });
       body.appendChild(tr);
     });
 
+    if (!shown) {
+      var er = document.createElement("tr");
+      er.className = "empty-row";
+      er.innerHTML = '<td colspan="9">nothing here — feed the muncher above, or loosen the filters</td>';
+      body.appendChild(er);
+    }
+
     var open = tasks.filter(function(t){ return t.status !== "Done"; }).length;
+    var first = tasks.filter(function(t){
+      return !t.pending && t.status !== "Done" && computeQuad(t.urgent, t.important) === 1;
+    }).length;
     var pending = tasks.filter(function(t){ return t.pending; }).length;
-    chipOpen.textContent = open;
-    chipTotal.textContent = tasks.length;
-    chipPending.textContent = pending;
-  }
+    document.getElementById("chipOpen").textContent = open;
+    document.getElementById("chipFirst").textContent = first;
+    document.getElementById("chipTotal").textContent = tasks.length;
+    document.getElementById("chipPending").textContent = pending;
+    document.getElementById("shownCount").textContent = shown + " shown";
 
-  function quadLabel(v){
-    return QUADRANTS.filter(function(q){ return q.v === v; })[0].label;
-  }
-
-  function makeSelect(options, current, onChange){
-    var sel = document.createElement("select");
-    options.forEach(function(o){
-      var op = document.createElement("option");
-      op.textContent = o;
-      if (o === current) op.selected = true;
-      sel.appendChild(op);
-    });
-    sel.addEventListener("change", function(){ onChange(sel.value); });
-    return sel;
+    renderQuadChart();
+    renderDonut();
   }
 
   // ---------- wiring ----------
@@ -747,6 +1050,8 @@
   input.addEventListener("keydown", function(e){
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); feed(); }
   });
+  searchBox.addEventListener("input", function(){ render(); });
+  statusFilter.addEventListener("change", function(){ render(); });
   document.getElementById("resetBtn").addEventListener("click", function(){
     tasks = seedTasks();
     save();
