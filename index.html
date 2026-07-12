@@ -498,6 +498,34 @@
   }
   footer a{ color: var(--cream-dim); }
 
+  /* ---------- found a bug? ---------- */
+  .bug-btn{
+    position:fixed;
+    right:14px;
+    bottom:14px;
+    z-index:50;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:"Courier New", monospace;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color: var(--ink);
+    background: var(--sun-yellow);
+    border: 3px solid var(--cream);
+    border-radius: 999px;
+    padding: 9px 15px;
+    text-decoration:none;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .bug-btn:hover{ filter:brightness(1.05); transform: translateY(-1px); }
+  .bug-btn:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.35); }
+  .bug-btn:focus-visible{ outline:3px solid var(--throat-pink); outline-offset:2px; }
+  .bug-btn .bug-icon{ font-size:14px; }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; transition:none !important; }
   }
@@ -543,21 +571,23 @@
         <path d="M28 158 Q150 188 272 158 L272 200 Q150 224 28 200 Z" fill="var(--mouth-dark)"/>
         <ellipse id="gulpBulge" cx="150" cy="185" rx="38" ry="22" fill="var(--ball-dark)"/>
 
+        <!-- upper teeth hang DOWN from the upper lip, following its curve -->
         <g fill="var(--cream)">
-          <path d="M46 163 L58 152 L70 163 Z"/>
-          <path d="M84 168 L96 156 L108 168 Z"/>
-          <path d="M192 168 L204 156 L216 168 Z"/>
-          <path d="M230 163 L242 152 L254 163 Z"/>
+          <path d="M46 164 L70 164 L58 173 Z"/>
+          <path d="M84 169 L108 169 L96 178 Z"/>
+          <path d="M192 169 L216 169 L204 178 Z"/>
+          <path d="M230 164 L254 164 L242 173 Z"/>
         </g>
 
         <g id="lowerJaw">
           <path d="M25 195 Q150 219 275 195 C275 195 265 285 150 292 C35 285 25 195 25 195 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
+          <!-- lower teeth point UP from the lower lip, following its curve -->
           <g fill="var(--cream)">
-            <path d="M52 196 L64 208 L76 196 Z"/>
-            <path d="M92 200 L104 212 L116 200 Z"/>
-            <path d="M184 200 L196 212 L208 200 Z"/>
-            <path d="M224 196 L236 208 L248 196 Z"/>
+            <path d="M52 202 L76 202 L64 193 Z"/>
+            <path d="M92 206 L116 206 L104 197 Z"/>
+            <path d="M184 206 L208 206 L196 197 Z"/>
+            <path d="M224 202 L248 202 L236 193 Z"/>
           </g>
         </g>
       </svg>
@@ -680,6 +710,13 @@
     built with Claude Code · this demo stores data only in your browser
   </footer>
 </div>
+
+<a class="bug-btn"
+   href="https://github.com/krisnaparista/mind-dump-prototype-public/issues/new?title=%F0%9F%90%9B%20&body=**UI%20expected%3A**%0A%0A**UI%20actual%3A**%0A%0A_(spotted%20on%20the%20Mind%20Muncher%20demo)_"
+   target="_blank" rel="noopener"
+   title="Report an issue — the muncher will eat it too">
+  <span class="bug-icon">🐛</span> found a bug?
+</a>
 
 <script>
 (function(){
