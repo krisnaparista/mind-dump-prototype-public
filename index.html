@@ -123,8 +123,8 @@
     transform-box: fill-box;
     transform-origin: center;
   }
-  .chomping #upperJaw{ transform: translateY(30px) rotate(1deg); }
-  .chomping #lowerJaw{ transform: translateY(-26px) rotate(-1deg); }
+  .chomping #upperJaw{ transform: translateY(44px) rotate(1deg); }
+  .chomping #lowerJaw{ transform: translateY(-36px) rotate(-1deg); }
 
   #eyeL, #eyeR{
     transition: transform 0.15s ease;
@@ -152,9 +152,9 @@
 
   .mouth-io{
     position:absolute;
-    left: 24%; right: 24%;
-    top: 59%;
-    height: 8.5%;
+    left: 22%; right: 22%;
+    top: 57.5%;
+    height: 12%;
     z-index:3;
     display:flex; align-items:center; justify-content:center;
   }
@@ -166,7 +166,8 @@
     color: var(--cream);
     font-family:"Courier New", monospace;
     font-weight:700;
-    font-size: 14px;
+    font-size: 13.5px;
+    line-height: 1.3;
     text-align:center;
     padding: 2px 4px;
     caret-color: var(--cream);
@@ -553,45 +554,46 @@
           </radialGradient>
         </defs>
         <g id="upperJaw">
-          <path d="M20 150 A130 130 0 0 1 280 150 Q150 172 20 150 Z"
+          <path d="M20 138 A130 130 0 0 1 280 138 Q150 158 20 138 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <g id="eyeL">
-            <ellipse cx="112" cy="102" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
-            <circle cx="116" cy="108" r="10" fill="var(--eye-dark)"/>
-            <circle cx="112" cy="101" r="3.5" fill="#fff"/>
+            <ellipse cx="112" cy="96" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
+            <circle cx="116" cy="102" r="10" fill="var(--eye-dark)"/>
+            <circle cx="112" cy="95" r="3.5" fill="#fff"/>
           </g>
           <g id="eyeR">
-            <ellipse cx="188" cy="102" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
-            <circle cx="192" cy="108" r="10" fill="var(--eye-dark)"/>
-            <circle cx="188" cy="101" r="3.5" fill="#fff"/>
+            <ellipse cx="188" cy="96" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
+            <circle cx="192" cy="102" r="10" fill="var(--eye-dark)"/>
+            <circle cx="188" cy="95" r="3.5" fill="#fff"/>
           </g>
-          <path d="M20 150 A130 130 0 0 1 280 150 Q150 172 20 150 Z" fill="url(#sheen)"/>
+          <path d="M20 138 A130 130 0 0 1 280 138 Q150 158 20 138 Z" fill="url(#sheen)"/>
         </g>
 
-        <path d="M28 158 Q150 188 272 158 L272 200 Q150 224 28 200 Z" fill="var(--mouth-dark)"/>
-        <ellipse id="gulpBulge" cx="150" cy="185" rx="38" ry="22" fill="var(--ball-dark)"/>
+        <!-- tall mouth band: room for two lines of text between the teeth -->
+        <path d="M28 146 Q150 172 272 146 L272 218 Q150 242 28 218 Z" fill="var(--mouth-dark)"/>
+        <ellipse id="gulpBulge" cx="150" cy="195" rx="38" ry="22" fill="var(--ball-dark)"/>
 
         <!-- upper teeth hang DOWN from the upper lip, following its curve -->
         <g fill="var(--cream)">
-          <path d="M40 163 L60 163 L50 172 Z"/>
-          <path d="M72 168 L92 168 L82 177 Z"/>
-          <path d="M104 172 L124 172 L114 178 Z"/>
-          <path d="M176 172 L196 172 L186 178 Z"/>
-          <path d="M208 168 L228 168 L218 177 Z"/>
-          <path d="M240 163 L260 163 L250 172 Z"/>
+          <path d="M40 150 L60 150 L50 161 Z"/>
+          <path d="M72 155 L92 155 L82 166 Z"/>
+          <path d="M104 158 L124 158 L114 168 Z"/>
+          <path d="M176 158 L196 158 L186 168 Z"/>
+          <path d="M208 155 L228 155 L218 166 Z"/>
+          <path d="M240 150 L260 150 L250 161 Z"/>
         </g>
 
         <g id="lowerJaw">
-          <path d="M25 195 Q150 219 275 195 C275 195 265 285 150 292 C35 285 25 195 25 195 Z"
+          <path d="M25 212 Q150 236 275 212 C275 212 265 285 150 292 C35 285 25 212 25 212 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <!-- lower teeth point UP from the lower lip, following its curve -->
           <g fill="var(--cream)">
-            <path d="M46 201 L66 201 L56 192 Z"/>
-            <path d="M78 205 L98 205 L88 196 Z"/>
-            <path d="M110 207 L130 207 L120 198 Z"/>
-            <path d="M170 207 L190 207 L180 198 Z"/>
-            <path d="M202 205 L222 205 L212 196 Z"/>
-            <path d="M234 201 L254 201 L244 192 Z"/>
+            <path d="M46 218 L66 218 L56 207 Z"/>
+            <path d="M78 222 L98 222 L88 211 Z"/>
+            <path d="M110 224 L130 224 L120 213 Z"/>
+            <path d="M170 224 L190 224 L180 213 Z"/>
+            <path d="M202 222 L222 222 L212 211 Z"/>
+            <path d="M234 218 L254 218 L244 207 Z"/>
           </g>
         </g>
       </svg>
