@@ -153,8 +153,8 @@
   .mouth-io{
     position:absolute;
     left: 24%; right: 24%;
-    top: 57%;
-    height: 10%;
+    top: 59%;
+    height: 8.5%;
     z-index:3;
     display:flex; align-items:center; justify-content:center;
   }
@@ -524,7 +524,7 @@
   .bug-btn:hover{ filter:brightness(1.05); transform: translateY(-1px); }
   .bug-btn:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.35); }
   .bug-btn:focus-visible{ outline:3px solid var(--throat-pink); outline-offset:2px; }
-  .bug-btn .bug-icon{ font-size:14px; }
+  .bug-btn .bug-icon{ display:block; flex:none; }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; transition:none !important; }
@@ -573,10 +573,12 @@
 
         <!-- upper teeth hang DOWN from the upper lip, following its curve -->
         <g fill="var(--cream)">
-          <path d="M46 164 L70 164 L58 173 Z"/>
-          <path d="M84 169 L108 169 L96 178 Z"/>
-          <path d="M192 169 L216 169 L204 178 Z"/>
-          <path d="M230 164 L254 164 L242 173 Z"/>
+          <path d="M40 163 L60 163 L50 172 Z"/>
+          <path d="M72 168 L92 168 L82 177 Z"/>
+          <path d="M104 172 L124 172 L114 178 Z"/>
+          <path d="M176 172 L196 172 L186 178 Z"/>
+          <path d="M208 168 L228 168 L218 177 Z"/>
+          <path d="M240 163 L260 163 L250 172 Z"/>
         </g>
 
         <g id="lowerJaw">
@@ -584,10 +586,12 @@
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <!-- lower teeth point UP from the lower lip, following its curve -->
           <g fill="var(--cream)">
-            <path d="M52 202 L76 202 L64 193 Z"/>
-            <path d="M92 206 L116 206 L104 197 Z"/>
-            <path d="M184 206 L208 206 L196 197 Z"/>
-            <path d="M224 202 L248 202 L236 193 Z"/>
+            <path d="M46 201 L66 201 L56 192 Z"/>
+            <path d="M78 205 L98 205 L88 196 Z"/>
+            <path d="M110 207 L130 207 L120 198 Z"/>
+            <path d="M170 207 L190 207 L180 198 Z"/>
+            <path d="M202 205 L222 205 L212 196 Z"/>
+            <path d="M234 201 L254 201 L244 192 Z"/>
           </g>
         </g>
       </svg>
@@ -715,7 +719,16 @@
    href="https://github.com/krisnaparista/mind-dump-prototype-public/issues/new?title=%F0%9F%90%9B%20&body=**UI%20expected%3A**%0A%0A**UI%20actual%3A**%0A%0A_(spotted%20on%20the%20Mind%20Muncher%20demo)_"
    target="_blank" rel="noopener"
    title="Report an issue — the muncher will eat it too">
-  <span class="bug-icon">🐛</span> found a bug?
+  <svg class="bug-icon" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+    <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <path d="M8.5 4.5 L5.5 1.5"/><path d="M15.5 4.5 L18.5 1.5"/>
+      <path d="M5.5 11 L1.5 8.5"/><path d="M18.5 11 L22.5 8.5"/>
+      <path d="M5 15 L1 15"/><path d="M19 15 L23 15"/>
+      <path d="M6 19 L2.5 22.5"/><path d="M18 19 L21.5 22.5"/>
+    </g>
+    <path fill="currentColor" d="M12 2.5 a5 5 0 0 1 5 5 L7 7.5 a5 5 0 0 1 5 -5 Z"/>
+    <ellipse fill="currentColor" cx="12" cy="15.5" rx="6.6" ry="7"/>
+  </svg> found a bug?
 </a>
 
 <script>
