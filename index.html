@@ -396,6 +396,29 @@
     background: var(--ball);
   }
 
+  button.del-btn{
+    width:22px; height:22px;
+    border:none;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--throat-pink), var(--sun-yellow));
+    color: var(--ink);
+    font-family:"Arial Black","Segoe UI",sans-serif;
+    font-weight:900;
+    font-size:12px;
+    line-height:1;
+    cursor:pointer;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    transition: transform 0.1s ease;
+  }
+  button.del-btn:hover{ transform: scale(1.18) rotate(90deg); }
+  button.del-btn:active{ transform: scale(0.9); }
+  button.del-btn:focus-visible{ outline:2px solid var(--cream); outline-offset:2px; }
+  .lock-badge{
+    font-size:11px;
+    opacity:0.35;
+    cursor:help;
+  }
+
   .tag-flash{
     display:inline-block;
     font-size:10px;
@@ -606,6 +629,7 @@
       <table>
         <thead>
           <tr>
+            <th aria-label="Delete"></th>
             <th>Dumped</th><th>Mind dump</th><th>MoSCoW</th><th>Urgent?</th>
             <th>Important?</th><th>Quadrant</th><th>Status</th><th>Notes</th><th>ETA</th>
           </tr>
@@ -615,7 +639,7 @@
     </div>
 
     <div class="dash-foot">
-      <span>your dumps live only in <em>your</em> browser &middot; quadrant is computed from urgent + important (Eisenhower)</span>
+      <span>your dumps live only in <em>your</em> browser &middot; × deletes your own dumps, 🔒 demo rows stay &middot; quadrant is computed from urgent + important (Eisenhower)</span>
       <button id="resetBtn" type="button">↺ fresh brain</button>
     </div>
   </section>
@@ -661,7 +685,7 @@
 (function(){
   "use strict";
 
-  var LS_KEY = "mind-muncher-demo-v2";
+  var LS_KEY = "mind-muncher-demo-v3";
   var QUAD_META = {
     1: { label: "Do First" },
     2: { label: "Schedule" },
@@ -705,19 +729,19 @@
     return [
       { id: uid(), text: "update tax code before deadline", date: isoDaysAgo(1),
         moscow: "Must Have", urgent: "Yes", important: "Yes", status: "WIP",
-        notes: "due 15 July", eta: "2d", pending: false },
+        notes: "due 15 July", eta: "2d", pending: false, demo: true },
       { id: uid(), text: "learn canvas animation for the monster", date: isoDaysAgo(1),
         moscow: "Nice to Have", urgent: "No", important: "Yes", status: "Under Review",
-        notes: "prototype built", eta: "", pending: false },
+        notes: "prototype built", eta: "", pending: false, demo: true },
       { id: uid(), text: "plan the weekend hiking trip", date: isoDaysAgo(0),
         moscow: "Should Have", urgent: "No", important: "Yes", status: "To Do",
-        notes: "", eta: "1h", pending: false },
+        notes: "", eta: "1h", pending: false, demo: true },
       { id: uid(), text: "call the dentist", date: isoDaysAgo(0),
         moscow: "—", urgent: "Yes", important: "No", status: "To Do",
-        notes: "", eta: "", pending: false },
+        notes: "", eta: "", pending: false, demo: true },
       { id: uid(), text: "idea: monster that eats my todos", date: isoDaysAgo(2),
         moscow: "—", urgent: "—", important: "—", status: "Done",
-        notes: "you're looking at it", eta: "", pending: false }
+        notes: "you're looking at it", eta: "", pending: false, demo: true }
     ];
   }
 
@@ -967,6 +991,27 @@
       if (t.status === "Done") tr.className = "done";
       if (t.id === freshId) tr.className += " fresh";
 
+      var tdDel = document.createElement("td");
+      if (t.demo) {
+        var lock = document.createElement("span");
+        lock.className = "lock-badge";
+        lock.textContent = "🔒";
+        lock.title = "demo row — always here so the next visit still has data";
+        tdDel.appendChild(lock);
+      } else if (!t.pending) {
+        var del = document.createElement("button");
+        del.className = "del-btn";
+        del.type = "button";
+        del.textContent = "×";
+        del.setAttribute("aria-label", "Delete this dump");
+        del.addEventListener("click", function(){
+          tasks = tasks.filter(function(x){ return x.id !== t.id; });
+          save();
+          render();
+        });
+        tdDel.appendChild(del);
+      }
+
       var tdDate = document.createElement("td");
       tdDate.className = "date-cell";
       tdDate.textContent = t.date;
@@ -981,7 +1026,7 @@
         tdText.appendChild(flash);
       }
 
-      var tds = [tdDate, tdText];
+      var tds = [tdDel, tdDate, tdText];
 
       if (t.pending) {
         var tdPend = document.createElement("td");
@@ -1026,7 +1071,7 @@
     if (!shown) {
       var er = document.createElement("tr");
       er.className = "empty-row";
-      er.innerHTML = '<td colspan="9">nothing here — feed the muncher above, or loosen the filters</td>';
+      er.innerHTML = '<td colspan="10">nothing here — feed the muncher above, or loosen the filters</td>';
       body.appendChild(er);
     }
 
