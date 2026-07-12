@@ -7,7 +7,7 @@ the muncher, watch it "sync", and sort it on the mini dashboard below. Everythin
 runs in your browser — your dumps are stored only in your own `localStorage`;
 nothing is sent anywhere.
 
-**Live demo:** *(GitHub Pages URL goes here after deploy)*
+**Live demo:** https://krisnaparista.github.io/mind-dump-prototype-public/
 
 ## What this is (and isn't)
 
