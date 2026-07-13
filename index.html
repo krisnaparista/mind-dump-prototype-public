@@ -153,7 +153,7 @@
   .mouth-io{
     position:absolute;
     left: 22%; right: 22%;
-    top: 57.5%;
+    top: 59.5%;
     height: 12%;
     z-index:3;
     display:flex; align-items:center; justify-content:center;
@@ -553,8 +553,10 @@
             <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
           </radialGradient>
         </defs>
+        <!-- the whole monster sits on one circle (center 150,150 r128) so the
+             silhouette reads round, not burger-shaped -->
         <g id="upperJaw">
-          <path d="M20 138 A130 130 0 0 1 280 138 Q150 158 20 138 Z"
+          <path d="M22 150 A128 128 0 0 1 278 150 Q150 172 22 150 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <g id="eyeL">
             <ellipse cx="112" cy="96" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
@@ -566,34 +568,34 @@
             <circle cx="192" cy="102" r="10" fill="var(--eye-dark)"/>
             <circle cx="188" cy="95" r="3.5" fill="#fff"/>
           </g>
-          <path d="M20 138 A130 130 0 0 1 280 138 Q150 158 20 138 Z" fill="url(#sheen)"/>
+          <path d="M22 150 A128 128 0 0 1 278 150 Q150 172 22 150 Z" fill="url(#sheen)"/>
         </g>
 
-        <!-- tall mouth band: room for two lines of text between the teeth -->
-        <path d="M28 146 Q150 172 272 146 L272 218 Q150 242 28 218 Z" fill="var(--mouth-dark)"/>
-        <ellipse id="gulpBulge" cx="150" cy="195" rx="38" ry="22" fill="var(--ball-dark)"/>
+        <!-- tall mouth band, sides tucked inside the circle -->
+        <path d="M30 156 Q150 180 270 156 L253 226 Q150 250 47 226 Z" fill="var(--mouth-dark)"/>
+        <ellipse id="gulpBulge" cx="150" cy="198" rx="38" ry="22" fill="var(--ball-dark)"/>
 
         <!-- upper teeth hang DOWN from the upper lip, following its curve -->
         <g fill="var(--cream)">
-          <path d="M40 150 L60 150 L50 161 Z"/>
-          <path d="M72 155 L92 155 L82 166 Z"/>
-          <path d="M104 158 L124 158 L114 168 Z"/>
-          <path d="M176 158 L196 158 L186 168 Z"/>
-          <path d="M208 155 L228 155 L218 166 Z"/>
-          <path d="M240 150 L260 150 L250 161 Z"/>
+          <path d="M42 160 L62 160 L52 171 Z"/>
+          <path d="M74 164 L94 164 L84 175 Z"/>
+          <path d="M106 167 L126 167 L116 177 Z"/>
+          <path d="M174 167 L194 167 L184 177 Z"/>
+          <path d="M206 164 L226 164 L216 175 Z"/>
+          <path d="M238 160 L258 160 L248 171 Z"/>
         </g>
 
         <g id="lowerJaw">
-          <path d="M25 212 Q150 236 275 212 C275 212 265 285 150 292 C35 285 25 212 25 212 Z"
+          <path d="M47 220 Q150 244 253 220 C253 220 245 275 150 282 C55 275 47 220 47 220 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <!-- lower teeth point UP from the lower lip, following its curve -->
           <g fill="var(--cream)">
-            <path d="M46 218 L66 218 L56 207 Z"/>
-            <path d="M78 222 L98 222 L88 211 Z"/>
-            <path d="M110 224 L130 224 L120 213 Z"/>
-            <path d="M170 224 L190 224 L180 213 Z"/>
-            <path d="M202 222 L222 222 L212 211 Z"/>
-            <path d="M234 218 L254 218 L244 207 Z"/>
+            <path d="M60 226 L80 226 L70 215 Z"/>
+            <path d="M88 230 L108 230 L98 219 Z"/>
+            <path d="M116 232 L136 232 L126 221 Z"/>
+            <path d="M164 232 L184 232 L174 221 Z"/>
+            <path d="M192 230 L212 230 L202 219 Z"/>
+            <path d="M220 226 L240 226 L230 215 Z"/>
           </g>
         </g>
       </svg>
@@ -607,7 +609,6 @@
     <div class="feed-row">
       <button class="gulp" id="gulpBtn" type="button">Gulp!</button>
     </div>
-    <p class="hint">enter to feed &middot; it lands below</p>
   </section>
 
   <!-- 2 · sync theater -->
