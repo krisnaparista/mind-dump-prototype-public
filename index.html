@@ -111,8 +111,8 @@
   /* ---------- muncher ---------- */
   .muncher{
     position:relative;
-    width: min(86%, 360px);
-    aspect-ratio: 1/1;
+    width: min(94%, 420px);
+    aspect-ratio: 1.18/1;
     margin: 0 auto 6px;
   }
 
@@ -545,7 +545,7 @@
   <section class="card narrow" id="muncherCard" aria-label="Thought capture">
     <h2>1 · Feed it a thought</h2>
     <div class="muncher" id="muncherBox">
-      <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <svg viewBox="0 0 300 300" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <radialGradient id="sheen" cx="36%" cy="26%" r="75%">
             <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
@@ -559,14 +559,12 @@
           <path d="M22 150 A128 128 0 0 1 278 150 Q150 172 22 150 Z"
                 fill="var(--ball)" stroke="var(--ball-dark)" stroke-width="5" stroke-linejoin="round"/>
           <g id="eyeL">
-            <ellipse cx="112" cy="96" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
-            <circle cx="116" cy="102" r="10" fill="var(--eye-dark)"/>
-            <circle cx="112" cy="95" r="3.5" fill="#fff"/>
+            <ellipse cx="112" cy="94" rx="24" ry="29" fill="#fff"/>
+            <circle cx="106" cy="102" r="7" fill="var(--eye-dark)"/>
           </g>
           <g id="eyeR">
-            <ellipse cx="188" cy="96" rx="22" ry="26" fill="#fff" stroke="var(--ball-dark)" stroke-width="2.5"/>
-            <circle cx="192" cy="102" r="10" fill="var(--eye-dark)"/>
-            <circle cx="188" cy="95" r="3.5" fill="#fff"/>
+            <ellipse cx="188" cy="94" rx="24" ry="29" fill="#fff"/>
+            <circle cx="182" cy="102" r="7" fill="var(--eye-dark)"/>
           </g>
           <path d="M22 150 A128 128 0 0 1 278 150 Q150 172 22 150 Z" fill="url(#sheen)"/>
         </g>
