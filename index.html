@@ -458,6 +458,78 @@
 
   .empty-row td{ text-align:center; color:var(--cream-faint); padding:18px 8px; }
 
+  /* ---------- view toggle (browser vs phone) ---------- */
+  .view-toggle{
+    display:inline-flex;
+    border: 2px solid rgba(255,244,218,0.25);
+    border-radius: 999px;
+    overflow:hidden;
+    margin: 0 auto 14px;
+  }
+  .view-toggle button{
+    background: transparent;
+    border:none;
+    color: var(--cream-dim);
+    font-family:"Courier New", monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding: 6px 14px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .view-toggle button.active{
+    background: var(--sun-yellow);
+    color: var(--ink);
+  }
+  .view-toggle-wrap{ text-align:center; }
+
+  /* card layout (phone view) — hidden by default */
+  .cards{ display:none; flex-direction:column; gap:12px; }
+  .task-card{
+    background: rgba(255,244,218,0.06);
+    border: 1px solid rgba(255,244,218,0.14);
+    border-radius: 12px;
+    padding: 12px 13px;
+  }
+  .task-card.done .tc-text{ text-decoration:line-through; opacity:0.45; }
+  .task-card.fresh{ animation: land 0.4s ease-out; }
+  .tc-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .tc-text{ font-size:14px; line-height:1.4; word-break:break-word; }
+  .tc-date{ font-size:10.5px; color:var(--cream-dim); margin-bottom:10px; }
+  .tc-toprow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  .tc-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px 10px;
+  }
+  .tc-field{ display:flex; flex-direction:column; gap:3px; }
+  .tc-field label{
+    font-size:9px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color: var(--cream-faint);
+  }
+  .tc-field select.cell{ max-width:none; width:100%; }
+  .tc-field input.cell-input{ width:100%; }
+  .tc-pending{ font-size:12px; color: var(--sun-yellow); }
+
+  body.view-phone .table-scroller{ display:none; }
+  body.view-phone .cards{ display:flex; }
+  /* on a wide screen, phone view shows a phone-width column so it reads as a phone */
+  body.view-phone .cards{ max-width: 440px; margin: 0 auto; }
+  body.view-phone .charts{ max-width: 440px; margin: 0 auto 16px; }
+  body.view-phone .chart-box{ flex-basis: 100%; }
+
   /* ---------- architecture ---------- */
   .arch{
     display:flex;
@@ -624,6 +696,13 @@
   <section class="card" aria-label="Dashboard">
     <h2>3 · Sort it later</h2>
 
+    <div class="view-toggle-wrap">
+      <div class="view-toggle" role="group" aria-label="Dashboard view">
+        <button type="button" id="viewBrowser">💻 Browser</button>
+        <button type="button" id="viewPhone">📱 Phone</button>
+      </div>
+    </div>
+
     <div class="chips">
       <span class="chip"><b id="chipOpen">0</b> open</span>
       <span class="chip"><b id="chipFirst">0</b> do first</span>
@@ -670,6 +749,8 @@
         <tbody id="taskBody"></tbody>
       </table>
     </div>
+
+    <div class="cards" id="taskCards"></div>
 
     <div class="dash-foot">
       <span>your dumps live only in <em>your</em> browser &middot; × deletes your own dumps, 🔒 demo rows stay &middot; quadrant is computed from urgent + important (Eisenhower)</span>
@@ -826,6 +907,7 @@
   var nodePhone = document.getElementById("nodePhone");
   var nodeSync = document.getElementById("nodeSync");
   var nodeDash = document.getElementById("nodeDash");
+  var cardsBox = document.getElementById("taskCards");
   var searchBox = document.getElementById("searchBox");
   var statusFilter = document.getElementById("statusFilter");
   var chewing = false;
@@ -1029,13 +1111,98 @@
     return span;
   }
 
+  function fieldWrap(labelText, control){
+    var f = document.createElement("div");
+    f.className = "tc-field";
+    var l = document.createElement("label");
+    l.textContent = labelText;
+    f.appendChild(l);
+    f.appendChild(control);
+    return f;
+  }
+
+  // one task as a stacked card (phone view) — same controls as the table row
+  function makeCard(t, freshId){
+    var card = document.createElement("div");
+    card.className = "task-card";
+    if (t.status === "Done") card.className += " done";
+    if (t.id === freshId) card.className += " fresh";
+
+    var head = document.createElement("div");
+    head.className = "tc-head";
+    var text = document.createElement("span");
+    text.className = "tc-text";
+    text.textContent = t.text;
+    if (t.autoTagged && t.id === freshId) {
+      var flash = document.createElement("span");
+      flash.className = "tag-flash";
+      flash.textContent = "auto-tagged";
+      text.appendChild(flash);
+    }
+    head.appendChild(text);
+    if (t.demo) {
+      var lock = document.createElement("span");
+      lock.className = "lock-badge";
+      lock.textContent = "🔒";
+      lock.title = "demo row — always here so the next visit still has data";
+      head.appendChild(lock);
+    } else if (!t.pending) {
+      var del = document.createElement("button");
+      del.className = "del-btn";
+      del.type = "button";
+      del.textContent = "×";
+      del.setAttribute("aria-label", "Delete this dump");
+      del.addEventListener("click", function(){
+        tasks = tasks.filter(function(x){ return x.id !== t.id; });
+        save(); render();
+      });
+      head.appendChild(del);
+    }
+    card.appendChild(head);
+
+    var date = document.createElement("div");
+    date.className = "tc-date";
+    date.textContent = t.date;
+    card.appendChild(date);
+
+    if (t.pending) {
+      var p = document.createElement("div");
+      p.className = "tc-pending";
+      p.textContent = "⏳ syncing…";
+      card.appendChild(p);
+      return card;
+    }
+
+    var top = document.createElement("div");
+    top.className = "tc-toprow";
+    top.appendChild(quadPill(t));
+    top.appendChild(makeSelect(STATUSES, t.status, function(v){ t.status = v; save(); render(); }));
+    card.appendChild(top);
+
+    var g1 = document.createElement("div");
+    g1.className = "tc-grid";
+    g1.appendChild(fieldWrap("MoSCoW", makeSelect(MOSCOW, t.moscow, function(v){ t.moscow = v; save(); })));
+    g1.appendChild(fieldWrap("Urgent?", makeSelect(YESNO, t.urgent, function(v){ t.urgent = v; save(); render(); })));
+    g1.appendChild(fieldWrap("Important?", makeSelect(YESNO, t.important, function(v){ t.important = v; save(); render(); })));
+    g1.appendChild(fieldWrap("ETA", makeInput(t.eta, "", "—", function(v){ t.eta = v; save(); })));
+    card.appendChild(g1);
+
+    var notesField = fieldWrap("Notes", makeInput(t.notes, "", "—", function(v){ t.notes = v; save(); }));
+    notesField.style.marginTop = "8px";
+    card.appendChild(notesField);
+
+    return card;
+  }
+
   function render(freshId){
     body.innerHTML = "";
+    cardsBox.innerHTML = "";
     var shown = 0;
 
     tasks.forEach(function(t){
       if (!t.pending && !matchesFilters(t)) return;
       shown++;
+      cardsBox.appendChild(makeCard(t, freshId));
       var tr = document.createElement("tr");
       if (t.status === "Done") tr.className = "done";
       if (t.id === freshId) tr.className += " fresh";
@@ -1122,6 +1289,12 @@
       er.className = "empty-row";
       er.innerHTML = '<td colspan="10">nothing here — feed the muncher above, or loosen the filters</td>';
       body.appendChild(er);
+      var ec = document.createElement("div");
+      ec.className = "task-card";
+      ec.style.textAlign = "center";
+      ec.style.color = "var(--cream-faint)";
+      ec.textContent = "nothing here — feed the muncher above, or loosen the filters";
+      cardsBox.appendChild(ec);
     }
 
     var open = tasks.filter(function(t){ return t.status !== "Done"; }).length;
@@ -1146,6 +1319,23 @@
   });
   searchBox.addEventListener("input", function(){ render(); });
   statusFilter.addEventListener("change", function(){ render(); });
+
+  // ---------- view toggle (browser vs phone) ----------
+  var btnBrowser = document.getElementById("viewBrowser");
+  var btnPhone = document.getElementById("viewPhone");
+  function setView(mode){
+    var phone = mode === "phone";
+    document.body.classList.toggle("view-phone", phone);
+    btnPhone.classList.toggle("active", phone);
+    btnBrowser.classList.toggle("active", !phone);
+    try { localStorage.setItem("mind-muncher-view", mode); } catch (e) {}
+  }
+  btnBrowser.addEventListener("click", function(){ setView("browser"); });
+  btnPhone.addEventListener("click", function(){ setView("phone"); });
+  // default: remembered choice, else auto-detect a narrow screen
+  var savedView = null;
+  try { savedView = localStorage.getItem("mind-muncher-view"); } catch (e) {}
+  setView(savedView || (window.matchMedia("(max-width: 640px)").matches ? "phone" : "browser"));
   document.getElementById("resetBtn").addEventListener("click", function(){
     tasks = seedTasks();
     save();
